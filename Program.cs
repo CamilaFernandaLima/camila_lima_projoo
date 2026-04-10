@@ -133,6 +133,7 @@ public class FactoryNotificacao
             Console.WriteLine("Erro: esse tipo de notificação não existe no sistema.");
             return null;
         }
+        return new NotificacaoProxy(objeto);
     }
 }
 
