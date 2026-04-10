@@ -78,7 +78,36 @@ public class AdaptadorAPI implements INotifica
     }
 }
 
-// 4. Construção do padrão Factory 
+//4. Implementação do proxy (log fictício para controlar acesso)
+public class NotificacaoProxy : INotifica
+{
+    private INotifica notificacaoAtual;
+    private int contadorEnvios = 0;
+
+    public NotificacaoProxy(INotifica notificacao)
+    {
+        this.notificacaoAtual = notificacao;
+    }
+
+    public void Enviar(string mensagem)
+    {
+        var configuracao = ConfiguraçãoGlobal.GetInstance();
+        contadorEnvios++;
+        Console.WriteLine("Proxy: Verificando tentativa de envio de mensagem (" + contadorEnvios + "/" + configuracao.MaxTentativasEnvio + ").");
+
+        if (contadorEnvios <= configuracao.MaxTentativasReenvio)
+        {
+            Console.WriteLine("(Proxy) Ação validada e permissão concedida! Enviando mensagem.");
+            notificacaoAtual.Enviar(mensagem);
+        }
+        else
+        {
+            Console.WriteLine("(Proxy) Limite de tentativas de envio excedido! A mensagem não pôde ser enviada.")
+        }
+    }
+}
+
+// 5. Construção do padrão Factory 
 public class FactoryNotificacao
 {
     public static INotifica Criar(string tipo)
