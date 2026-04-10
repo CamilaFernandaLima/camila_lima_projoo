@@ -53,7 +53,32 @@ public class Push : INotifica
     }
 }
 
-// 3. Construção do padrão Factory 
+//3. API externa inventada (fora do padrão INotifica)
+public class APIExternaInventada 
+{
+    public void EnviarSMS(string texto)
+    {
+        Console.WriteLine("Enviando SMS via API Externa para" + numero +": " + texto);
+    }
+}
+
+// adaptador para que ela se encaixe no padrão
+public class AdaptadorAPI implements INotifica
+{
+    private APIExternaInventada apiExterna;
+
+    public AdaptadorAPI(APIExternaInventada api)
+    {
+        this.apiExterna = api;
+    }
+
+    public void Enviar(string mensagem)
+    {
+        apiExterna.EnviarSMS(mensagem);
+    }
+}
+
+// 4. Construção do padrão Factory 
 public class FactoryNotificacao
 {
     public static INotifica Criar(string tipo)
