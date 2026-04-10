@@ -58,12 +58,12 @@ public class APIExternaInventada
 {
     public void EnviarSMS(string texto)
     {
-        Console.WriteLine("Enviando SMS via API Externa para" + numero +": " + texto);
+        Console.WriteLine("Enviando SMS via API Externa para: " + texto);
     }
 }
 
 // adaptador para que ela se encaixe no padrão
-public class AdaptadorAPI implements INotifica
+public class AdaptadorAPI : INotifica
 {
     private APIExternaInventada apiExterna;
 
@@ -91,9 +91,9 @@ public class NotificacaoProxy : INotifica
 
     public void Enviar(string mensagem)
     {
-        var configuracao = ConfiguraçãoGlobal.GetInstance();
+        var configuracao = ConfiguracaoGlobal.GetInstance();
         contadorEnvios++;
-        Console.WriteLine("Proxy: Verificando tentativa de envio de mensagem (" + contadorEnvios + "/" + configuracao.MaxTentativasEnvio + ").");
+        Console.WriteLine("Proxy: Verificando tentativa de envio de mensagem (" + contadorEnvios + "/" + configuracao.MaxTentativasReenvio + ").");
 
         if (contadorEnvios <= configuracao.MaxTentativasReenvio)
         {
@@ -102,7 +102,7 @@ public class NotificacaoProxy : INotifica
         }
         else
         {
-            Console.WriteLine("(Proxy) Limite de tentativas de envio excedido! A mensagem não pôde ser enviada.")
+            Console.WriteLine("(Proxy) Limite de tentativas de envio excedido! A mensagem não pôde ser enviada.");
         }
     }
 }
@@ -119,12 +119,12 @@ public class FactoryNotificacao
         {
             objeto = new Email();
         }
-        if (tipo == "sms")
+        else if (tipo == "sms")
         {
             APIExternaInventada apiExterna = new APIExternaInventada();
             objeto = new AdaptadorAPI(apiExterna);
         }
-        if (tipo == "push")
+        else if (tipo == "push")
         {
             objeto = new Push();
         }
