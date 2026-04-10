@@ -112,17 +112,21 @@ public class FactoryNotificacao
 {
     public static INotifica Criar(string tipo)
     {
+        INotifica objeto = null;
+
+
         if (tipo == "email")
         {
-            return new Email();
+            objeto = new Email();
         }
         if (tipo == "sms")
         {
-            return new SMS();
+            APIExternaInventada apiExterna = new APIExternaInventada();
+            objeto = new AdaptadorAPI(apiExterna);
         }
         if (tipo == "push")
         {
-            return new Push();
+            objeto = new Push();
         }
         else
         {
@@ -132,7 +136,7 @@ public class FactoryNotificacao
     }
 }
 
-// 4. Programa Main
+// 5. Programa Main
 public class Program
 {
     public static void Main()
