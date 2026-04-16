@@ -8,8 +8,7 @@ Implementar um pequeno sistema orientado a objetos que:
 - utilize o padrão Factory para criar objetos de notificação;
 - utilize o padrão Singleton para garantir uma única instância de configuração global;
 
-*BRANCH*
-Evolução da solução (Adapter e Proxy)
+*BRANCH*: Evolução da solução (Adapter e Proxy)
 
 Após implementar Factory e Singleton, o sistema eoluiu para novos requisitos:
 - Adapter: integrar serviços externos ou legados com interfaces incompatíveis.
